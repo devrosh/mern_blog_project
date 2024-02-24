@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
-const postRoutes = require("./routes/postRoutes" );
+const postRoutes = require("./routes/postRoutes");
 const cookieParser = require("cookie-parser");
 const db = require("./config/db");
 
@@ -20,6 +20,12 @@ app.use(
     credentials: true,
   })
 );
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  // Other CORS configurations
+  next();
+});
+
 app.use(express.static("public"));
 app.use(cookieParser());
 

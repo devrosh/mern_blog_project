@@ -1,20 +1,18 @@
 import React from "react";
 import "./App.css";
 import Header from "./components/Header";
-
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import HomePage from "./pages/HomePage";
 import { Routes, Route } from "react-router-dom";
-
-import PostDetails from "./pages/PostDetails";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 import CreatePost from "./pages/CreatePost";
-import Account from "./pages/Account";
 import EditPost from "./pages/EditPost";
+import PostDetails from "./pages/PostDetails";
 
 function App() {
-  const isLoggedIn = localStorage.getItem("token");
-
   return (
     <div className="App">
       <Header />
@@ -23,6 +21,15 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route
+            path="/reset-password/:id/:token"
+            element={<ResetPassword />}
+          />
+          <Route path="/create" element={<CreatePost />} />
+          <Route path="/post/:id/update" element={<EditPost />} />
+          <Route path="/post/:id" element={<PostDetails />} />
         </Routes>
       </div>
     </div>

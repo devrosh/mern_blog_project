@@ -64,12 +64,14 @@ const loginUser = asyncHandler(async (req, res) => {
       httpOnly: true,
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
+      sameSite: "none",
     });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
       maxAge: 72 * 60 * 60 * 1000,
+      sameSite: "none",
     });
 
     if (user && isValidPassword) {
@@ -79,6 +81,7 @@ const loginUser = asyncHandler(async (req, res) => {
         lastName: user?.lastName,
         email: user?.email,
         password: user?.password,
+        profileImg: user?.profileImg,
         accessToken: accessToken,
       });
     } else {

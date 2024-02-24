@@ -45,7 +45,7 @@ function Editor({ value, onChange }) {
     <div>
       <ReactQuill
         value={value}
-        className="w-[600px] h-auto border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+        className="w-[600px] h-auto bg-white border rounded-md border-gray-100 focus:border-red-500"
         placeholder="Write something amazing.."
         modules={modules}
         formats={formats}

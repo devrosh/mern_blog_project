@@ -4,7 +4,7 @@ import { FaFacebook, FaInstagram, FaTelegram, FaTwitter } from "react-icons/fa";
 
 function SocialShare() {
   return (
-    <div className="bg-gray-200 h-[60px] mt-6 mb-[-40px] w-full">
+    <div className="w-full bg-gray-100 h-[60px] mt-6 mb-[-40px] ">
       <div className="max-w-[1200px] mx-auto flex items-center gap-5 pt-5 px-4 ">
         <p className="text-center text-sm">Follow Us: </p>
         <div className="flex items-center gap-2">
