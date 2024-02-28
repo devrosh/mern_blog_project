@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes");
+const commentRoutes = require("./routes/commentRoutes");
 const cookieParser = require("cookie-parser");
 const db = require("./config/db");
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 //Routes
 app.use("/api/user", userRoutes);
 app.use("/api/post", postRoutes);
+app.use("/api/comment", commentRoutes);
 
 //Server initialisation
 app.listen(port, () => {

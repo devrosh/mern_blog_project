@@ -5,7 +5,7 @@ import Copyright from "../components/Copyright";
 import SocialShare from "../components/SocialShare";
 import HeroPost from "../components/HeroPost";
 
-export default function HomePage(props) {
+export default function HomePage() {
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
@@ -39,8 +39,9 @@ export default function HomePage(props) {
           <HeroPost
             title={posts[3]?.title}
             image={posts[3]?.image}
-            author={posts[0?.author]}
-            createdAt={posts[0]?.createdAt}
+            author={posts[3]?.author}
+            createdAt={posts[3]?.createdAt}
+            _id={posts[3]?._id}
           />
         </div>
         <div className="flex flex-col md:gap-x-5 gap-y-5 px-5 pb-10">

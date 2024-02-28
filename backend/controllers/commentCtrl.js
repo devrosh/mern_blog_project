@@ -3,55 +3,50 @@ const Post = require("../models/postModel");
 const asyncHandler = require("../utils/asyncHandler");
 
 const createComment = asyncHandler(async (req, res) => {
-  const { text } = req.body;
-  const { postId } = req.params;
-  const userId = req.user._id;
-
   try {
-    const post = await Post.findById(postId);
-    if (!post) {
-      res.status(400).json({ message: "Post not found" });
-    } else {
-      const newComment = await Comment.create({
-        postId,
-        user: userId,
-        text,
-      });
-      post.comments.push(newComment._id);
-      await post.save();
-      res.status(200).json(newComment);
-    
+    const { text, postId, userId } = req.body;
+    if (userId !== req.user._id) {
+      res.json({ message: "You are not allowed to comment" });
     }
+    const newComment = new Comment({
+      postId,
+      userId,
+      text,
+    });
+    await newComment.save();
   } catch (error) {
     res.status(400).json({ message: "Cant add comments" });
   }
 });
+
+//-------------Edit Comment-------------------
+const editComment = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { text } = req.body;
+    const comment = await Comment.findByIdAndUpdate(
+      id,
+      { text },
+      {
+        new: true,
+      }
+    );
+    if (!comment) {
+      res.status(400).json({ message: "Could not find comment" });
+    } else {
+      res.status(200).json(comment);
+    }
+  } catch (error) {
+    res.status(400).json({ message: "Error updating comment" });
+  }
+});
+
 //-----------------Delete comments-------------
 const deleteComment = asyncHandler(async (req, res) => {
   const { commentId } = req.params;
-  const userId = req.user._id;
 
   try {
     // Check if the comment exists
-    const comment = await Comment.findById(commentId);
-    if (!comment) {
-      return res.status(404).json({ message: "Comment not found" });
-    }
-    // Check if the user owns the comment
-    if (comment.user.toString() !== userId.toString()) {
-      return res
-        .status(403)
-        .json({ message: "You do not have permission to delete this comment" });
-    }
-    // Remove the comment from the post's comments array
-    const post = await Post.findById(comment.postId);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found" });
-    }
-    post.comments = post.comments.filter(
-      (comment) => comment.toString() !== commentId.toString()
-    );
-    await post.save();
 
     // Delete the comment
     await Comment.findByIdAndDelete(commentId);
@@ -62,5 +57,17 @@ const deleteComment = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+//---------Get all Comments---------------
+const getAllComments = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
 
-module.exports = { createComment, deleteComment };
+  try {
+    const comments = await Comment.find({ postId });
+
+    res.status(200).json(comments);
+  } catch (error) {
+    res.status(402).json({ message: "Error getting comments" });
+  }
+});
+
+module.exports = { createComment, deleteComment, editComment, getAllComments };

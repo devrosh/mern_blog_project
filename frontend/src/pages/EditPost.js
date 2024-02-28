@@ -21,7 +21,7 @@ function EditPost() {
       try {
         const response = await fetch(`http://localhost:8080/api/post/${id}`);
         const postDetail = await response.json();
-        console.log(postDetail);
+   
 
         setTitle(postDetail.title);
         setContent(postDetail.content);

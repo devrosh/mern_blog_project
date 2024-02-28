@@ -3,8 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import Comment from "../components/comment"
-
+import Comments from "../components/Comments";
 function PostDetails() {
   const [postDetail, setPostDetail] = useState(null);
   const { id } = useParams();
@@ -13,7 +12,6 @@ function PostDetails() {
     const getPost = async () => {
       const response = await axios.get(`http://localhost:8080/api/post/${id}`);
       const postDetail = await response.data;
-      console.log(postDetail);
       setPostDetail(postDetail);
     };
     getPost();
@@ -21,8 +19,9 @@ function PostDetails() {
   if (!postDetail) {
     return "";
   }
+
   return (
-    <div className="mx-auto px-3 bg-white py-3 max-w-900">
+    <div className="mx-auto px-3 bg-white py-3 max-w-900 mt-3">
       <h1 className="text-3xl text-center text-gray-800 font-medium mt-10 pb-3">
         {postDetail.title}
       </h1>
@@ -33,7 +32,7 @@ function PostDetails() {
       <div className="text-center mb-3 flex justify-center">
         <Link
           to={`/post/${postDetail._id}/update`}
-          className=" w-40 text-center text-sm text-white bg-gray-900 px-8 py-2 mb-3 rounded "
+          className=" w-40 text-center text-sm text-white bg-red-500 px-6 py-2 mb-3 rounded hover:bg-red-600 "
         >
           Edit Post
         </Link>
@@ -47,6 +46,7 @@ function PostDetails() {
       </div>
 
       <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
+      <Comments  postId={postDetail._id} />
     </div>
   );
 }

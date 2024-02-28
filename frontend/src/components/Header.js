@@ -32,7 +32,7 @@ function Header() {
           <input
             className="border-none outline-none bg-gray-100 text-sm"
             type="text"
-            placeholder="search post..."
+            placeholder="Search Post..."
           />
         </div>
         {user ? (
