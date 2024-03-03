@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser } from "../authSlice";
 import { AiOutlineLike } from "react-icons/ai";
 import moment from "moment";
 import EditComment from "./EditComment";
+
 const Comments = ({ postId }) => {
   const user = useSelector(selectUser);
   const [newComment, setNewComment] = useState("");
@@ -29,14 +30,17 @@ const Comments = ({ postId }) => {
       );
       // Assuming the server responds with the new comment data
       const data = response.data;
-      // Resetting input form
-      setNewComment("");
+
       // Update the comments state with the new comment
       setComments([...comments, data]);
     } catch (error) {
       console.error("Error posting comment", error);
     }
   };
+  // Use useEffect to reset the form after the state has been updated
+  useEffect(() => {
+    setNewComment("");
+  }, [comments]);
 
   useEffect(() => {
     const getComments = async () => {
@@ -47,6 +51,9 @@ const Comments = ({ postId }) => {
         if (res.status === 200) {
           const data = res.data;
           setComments(data);
+          console.log("Fetched comments:", data); // Log the fetched data
+        } else {
+          console.log("Unexpected status code:", res.status);
         }
       } catch (error) {
         console.log("Could not fetch comments");

@@ -5,15 +5,18 @@ const asyncHandler = require("../utils/asyncHandler");
 const createComment = asyncHandler(async (req, res) => {
   try {
     const { text, postId, userId } = req.body;
-    if (userId !== req.user._id) {
-      res.json({ message: "You are not allowed to comment" });
+
+    if (userId.toString() !== req.user._id.toString()) {
+      return res.json({ message: "You are not allowed to comment" });
+    } else {
+      const newComment = new Comment({
+        postId,
+        userId,
+        text,
+      });
+      await newComment.save();
+      res.json(newComment);
     }
-    const newComment = new Comment({
-      postId,
-      userId,
-      text,
-    });
-    await newComment.save();
   } catch (error) {
     res.status(400).json({ message: "Cant add comments" });
   }

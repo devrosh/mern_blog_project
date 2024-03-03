@@ -14,7 +14,6 @@ function Header() {
     dispatch(clearUser());
     // Also, perform any other logout actions like redirecting or clearing tokens
     navigate("/login");
-    console.log(user);
   };
   return (
     <header className=" w-full h-[60px] pt-3 bg-white shadow-md">

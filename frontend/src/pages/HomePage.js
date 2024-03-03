@@ -42,6 +42,7 @@ export default function HomePage() {
             author={posts[3]?.author}
             createdAt={posts[3]?.createdAt}
             _id={posts[3]?._id}
+            selectedCategory={posts[3]?.selectedCategory}
           />
         </div>
         <div className="flex flex-col md:gap-x-5 gap-y-5 px-5 pb-10">

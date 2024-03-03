@@ -50,10 +50,14 @@ function CreatePost() {
   const [title, setTitle] = useState("");
   const [image, setImage] = useState("");
   const [author, setAuthor] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [loading, setLoading] = useState(false);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
+
+  const categories = ["Web", "UI/UX", "Cybersecurity", "DevOps"];
   axios.defaults.withCredentials = true;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -62,6 +66,7 @@ function CreatePost() {
       formData.append("title", title);
       formData.append("content", content);
       formData.append("author", author);
+      formData.append("selectedCategory", selectedCategory);
       formData.append("image", image[0]);
 
       const response = await axios.post(
@@ -71,6 +76,7 @@ function CreatePost() {
           headers: {
             Authorization: `Bearer ${user.accessToken}`,
           },
+          "Content-Type": "multipart/form-data",
         }
       );
       console.log(response.data);
@@ -100,10 +106,21 @@ function CreatePost() {
         <input
           className="w-[600px] px-3 text-xs py-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
           type="text"
-          placeholder="Enter auhtor name.."
+          placeholder="Enter author name.."
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
+        <select
+          className="text-sm text-gray-700 px-3 py-2 my-1 rounded-md border border-gray-300 focus:outline-none focus:border-red-500"
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
         <input
           className="text-xs text-gray-700"
           type="file"

@@ -5,7 +5,7 @@ const { uploadFileToCloudinary } = require("../utils/cloudinary");
 //-------------Create Post-----------------------
 const createPost = aysncHandler(async (req, res) => {
   try {
-    const { title, content, author } = req.body;
+    const { title, content, author, selectedCategory } = req.body;
     const postImageLocalPath = req.file?.path;
     console.log(postImageLocalPath);
 
@@ -21,6 +21,7 @@ const createPost = aysncHandler(async (req, res) => {
       content,
       author,
       image: postImage.url,
+      selectedCategory,
     });
 
     const savedPost = await newPost.save();

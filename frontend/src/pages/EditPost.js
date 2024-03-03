@@ -11,22 +11,26 @@ function EditPost() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [files, setFiles] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const user = useSelector(selectUser);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { id } = useParams();
+
+  const categories = ["Web", "UI/UX", "Cybersecurity", "DevOps"];
+
   axios.defaults.withCredentials = true;
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
         const response = await fetch(`http://localhost:8080/api/post/${id}`);
         const postDetail = await response.json();
-   
 
         setTitle(postDetail.title);
         setContent(postDetail.content);
         setFiles(postDetail.image);
         setAuthor(postDetail.author);
+        setSelectedCategory(postDetail.selectedCategory);
       } catch (error) {
         console.log("Error fetching post details:");
       }
@@ -44,6 +48,7 @@ function EditPost() {
       formData.append("content", content);
       formData.append("author", author);
       formData.append("image", files[0]);
+      formData.append("selectedCategory", selectedCategory);
       setLoading(true);
       const response = await axios.put(
         `http://localhost:8080/api/post/update/${id}`,
@@ -86,6 +91,17 @@ function EditPost() {
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
         />
+        <select
+          className="text-sm text-gray-700 px-3 py-2 my-1 rounded-md border border-gray-300 focus:outline-none focus:border-red-500"
+          onChange={(e) => setSelectedCategory(e.target.value)}
+        >
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
+            </option>
+          ))}
+        </select>
 
         <input
           className="text-xs text-gray-700"
