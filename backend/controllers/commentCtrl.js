@@ -1,5 +1,4 @@
 const Comment = require("../models/commentModel");
-const Post = require("../models/postModel");
 const asyncHandler = require("../utils/asyncHandler");
 
 const createComment = asyncHandler(async (req, res) => {
@@ -73,4 +72,69 @@ const getAllComments = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { createComment, deleteComment, editComment, getAllComments };
+//--------------Like a comment------
+const likeComment = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const commentId = req.body.commentId;
+
+    // Check if the user has already liked the comment
+    const alreadyLiked = await Comment.exists({
+      _id: commentId,
+      likes: userId,
+    });
+
+    if (alreadyLiked) {
+      return res.status(400).json({ message: "Comment already liked" });
+    }
+    // If not already liked, proceed to update the comment
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { $push: { likes: userId } },
+      { new: true }
+    );
+
+    res.status(200).json(updatedComment);
+  } catch (error) {
+    console.error("Error liking comment", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+//----------------Unlike comment-------
+const unlikeComment = asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const commentId = req.body.commentId;
+
+    // Check if the user has already unliked the comment
+    const alreadyUnliked = await Comment.exists({
+      _id: commentId,
+      likes: userId,
+    });
+
+    if (!alreadyUnliked) {
+      return res.status(400).json({ message: "Comment not liked" });
+    }
+
+    // If already unliked, proceed to update the comment
+    const updatedComment = await Comment.findByIdAndUpdate(
+      commentId,
+      { $pull: { likes: userId } },
+      { new: true }
+    );
+
+    res.status(200).json(updatedComment);
+  } catch (error) {
+    console.error("Error unliking comment", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+module.exports = {
+  createComment,
+  deleteComment,
+  editComment,
+  getAllComments,
+  likeComment,
+  unlikeComment,
+};

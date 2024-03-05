@@ -26,6 +26,7 @@ const ResetPassword = () => {
         password
       );
       const data = response.json();
+      console.log(data);
 
       navigate("/login");
 

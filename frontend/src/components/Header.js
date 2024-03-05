@@ -23,7 +23,7 @@ function Header() {
             className="text-xl text-gray-700 font-semibold hover:text-red-600"
             to="/"
           >
-            Rastr
+            Blog
           </Link>
         </div>
         <div className="w-[350px] flex flex-row items-center gap-4 bg-gray-100 p-2 rounded-full">

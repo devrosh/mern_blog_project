@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -54,6 +54,7 @@ function Register() {
           <input
             className="w-full border border-gray-300 p-2 rounded my-1 outline-none focus:border-red-500"
             {...register("firstName", { required: "First name is required" })}
+            autoComplete="off"
           />
           {errors.firstName && (
             <p className="text-red-700">{errors.firstName.message}</p>
@@ -65,6 +66,7 @@ function Register() {
           <input
             className="w-full border border-gray-300 p-2 my-1 rounded outline-none focus:border-red-500"
             {...register("lastName", { required: "Last name is required" })}
+            autoComplete="off"
           />
           {errors.lastName && (
             <p className="text-red-700">{errors.lastName.message}</p>
@@ -76,6 +78,7 @@ function Register() {
           <input
             className="w-full border border-gray-300 p-2 my-1 rounded outline-none focus:border-red-500"
             {...register("email", { required: "Email is required" })}
+            autoComplete="off"
           />
           {errors.email && (
             <p className="text-red-700">{errors.email.message}</p>
@@ -88,6 +91,7 @@ function Register() {
             className="w-full border border-gray-300 p-2 my-1 rounded outline-none focus:border-red-500"
             {...register("password", { required: "Password is required" })}
             type="password"
+            autoComplete="off"
           />
           {errors.password && (
             <p className="text-red-700">{errors.password.message}</p>
@@ -102,6 +106,7 @@ function Register() {
               required: "Profile image is required",
             })}
             type="file"
+            autoComplete="off"
           />
           {errors.profileImg && (
             <p className="text-red-700">{errors.profileImg.message}</p>

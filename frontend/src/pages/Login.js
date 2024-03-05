@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Footer from "../components/Footer";
@@ -50,6 +50,7 @@ function Login() {
           <input
             className="w-full border border-gray-300 p-2 rounded my-2 outline-none focus:border-red-500"
             {...register("email", { required: "Email is required" })}
+            autoComplete="off"
           />
           {errors.email && (
             <p className="text-red-700">{errors.email.message}</p>
@@ -61,6 +62,7 @@ function Login() {
           <input
             className="w-full border border-gray-300 p-2 rounded my-2 outline-none focus:border-red-500"
             {...register("password", { required: "Password is required" })}
+            autoComplete="off"
             type="password"
           />
           {errors.password && (

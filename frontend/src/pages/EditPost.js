@@ -83,6 +83,7 @@ function EditPost() {
           placeholder="Enter a post title.."
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          autoComplete="off"
         />
         <input
           className="w-[600px] px-3 text-xs py-3 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
@@ -90,6 +91,7 @@ function EditPost() {
           placeholder="Enter an author name.."
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
+          autoComplete="off"
         />
         <select
           className="text-sm text-gray-700 px-3 py-2 my-1 rounded-md border border-gray-300 focus:outline-none focus:border-red-500"
@@ -109,6 +111,7 @@ function EditPost() {
           placeholder="Upload image"
           accept="image/png, image/jpg, image/jpeg"
           onChange={(e) => setFiles(e.target.files)}
+          autoComplete="off"
         />
         <Editor value={content} onChange={setContent} />
 
