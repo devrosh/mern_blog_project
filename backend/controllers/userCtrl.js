@@ -139,8 +139,8 @@ const forgotPassword = async (req, res) => {
       port: 587,
       secure: false,
       auth: {
-        user: "roshrkd@gmail.com",
-        pass: "wcrm lozl vcii wodc",
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
     const info = transporter.sendMail({

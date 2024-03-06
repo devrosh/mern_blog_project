@@ -116,7 +116,7 @@ const Comments = ({ postId }) => {
       setLikes(updatedComment.likesCount);
       setIsLiked(true);
     } catch (error) {
-      console.error("Error liking comment", error);
+      console.error("Error liking comment,Please log in", error);
     }
   };
 
@@ -194,13 +194,13 @@ const Comments = ({ postId }) => {
                   <div>
                     <img
                       className="w-[40px] h-[40px] rounded-full border border-gray-200"
-                      src={user?.profileImg}
+                      src={item.userId?.profileImg}
                     />
                   </div>
                   <div>
                     <div className="flex flex-row gap-2 items-center">
                       <p className=" text-gray-600 font-semibold text-sm">
-                        {`@${user?.firstName} ${user?.lastName}`}
+                        {`@${item.userId?.firstName} ${item.userId?.lastName}`}
                       </p>
                       <span className="text-xs text-gray-500">
                         {moment(item.createdAt).fromNow()}
@@ -242,7 +242,8 @@ const Comments = ({ postId }) => {
                         <AiFillDislike />
                       </div>
                       <span className="text-xs text-gray-600">
-                        {item.likes.length} Likes
+                        {item.likes.length}{" "}
+                        {item.likes.length <= 1 ? "Like" : "Likes"}
                       </span>
 
                       <Link

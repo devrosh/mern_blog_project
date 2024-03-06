@@ -62,11 +62,28 @@ const deleteComment = asyncHandler(async (req, res) => {
 //---------Get all Comments---------------
 const getAllComments = asyncHandler(async (req, res) => {
   const { postId } = req.params;
+  
 
   try {
-    const comments = await Comment.find({ postId });
+    const comments = await Comment.find({ postId }).populate("userId", [
+      "firstName",
+      "lastName",
+      "profileImg",
+    ]);
+    console.log("Original Comments:", comments);
 
-    res.status(200).json(comments);
+    // Extract only the populated user data
+    const populatedComments = comments.map((comment) => ({
+      ...comment.toObject(),
+      userId: {
+        firstName: comment.userId.firstName,
+        lastName: comment.userId.lastName,
+        profileImg: comment.userId.profileImg,
+      },
+    }));
+
+    console.log("Populated Comments:", populatedComments);
+    res.status(200).json(populatedComments);
   } catch (error) {
     res.status(402).json({ message: "Error getting comments" });
   }

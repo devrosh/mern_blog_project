@@ -50,7 +50,7 @@ function Login() {
           <input
             className="w-full border border-gray-300 p-2 rounded my-2 outline-none focus:border-red-500"
             {...register("email", { required: "Email is required" })}
-            autoComplete="off"
+            autoComplete="on"
           />
           {errors.email && (
             <p className="text-red-700">{errors.email.message}</p>
