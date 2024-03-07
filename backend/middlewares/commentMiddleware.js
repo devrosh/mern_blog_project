@@ -9,9 +9,11 @@ const checkCommentOwnership = async (req, res, next) => {
       return res.status(404).json({ message: "Comment not found" });
     }
 
-    if (comment.userId.toString() !== req.user.userId) {
+    if (comment.userId.toString() !== req.user._id.toString()) {
       // The authenticated user is not the owner of the comment
-      return res.status(403).json({ message: "your are not allowed to perfrom thsi action" });
+      return res
+        .status(403)
+        .json({ message: "your are not allowed to perfrom this action" });
     }
 
     // User is authorized to proceed

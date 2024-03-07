@@ -14,25 +14,60 @@ const createComment = asyncHandler(async (req, res) => {
         text,
       });
       await newComment.save();
-      res.json(newComment);
+      // Populate the user information before sending the response
+      await newComment.populate("userId", [
+        "firstName",
+        "lastName",
+        "profileImg",
+      ]);
+
+      // Send the populated comment in the response
+      res.json({ comment: newComment });
     }
   } catch (error) {
+    console.error("Error adding comment:", error);
     res.status(400).json({ message: "Cant add comments" });
+  }
+});
+//---------Get all Comments---------------
+const getAllComments = asyncHandler(async (req, res) => {
+  const { postId } = req.params;
+
+  try {
+    const comments = await Comment.find({ postId }).populate("userId", [
+      "firstName",
+      "lastName",
+      "profileImg",
+    ]);
+
+    // Extract only the populated user data
+    const populatedComments = comments.map((comment) => ({
+      ...comment.toObject(),
+      userId: {
+        firstName: comment.userId.firstName,
+        lastName: comment.userId.lastName,
+        profileImg: comment.userId.profileImg,
+      },
+    }));
+
+    res.status(200).json(populatedComments);
+  } catch (error) {
+    res.status(402).json({ message: "Error getting comments" });
   }
 });
 
 //-------------Edit Comment-------------------
 const editComment = asyncHandler(async (req, res) => {
   try {
-    const { id } = req.params;
+    const { commentId } = req.params;
     const { text } = req.body;
     const comment = await Comment.findByIdAndUpdate(
-      id,
+      commentId,
       { text },
       {
         new: true,
       }
-    );
+    ).populate("userId", ["firstName", "lastName", "profileImg"]);
     if (!comment) {
       res.status(400).json({ message: "Could not find comment" });
     } else {
@@ -49,7 +84,11 @@ const deleteComment = asyncHandler(async (req, res) => {
 
   try {
     // Check if the comment exists
+    const comment = await Comment.findById(commentId);
 
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
     // Delete the comment
     await Comment.findByIdAndDelete(commentId);
 
@@ -57,35 +96,6 @@ const deleteComment = asyncHandler(async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
-  }
-});
-//---------Get all Comments---------------
-const getAllComments = asyncHandler(async (req, res) => {
-  const { postId } = req.params;
-  
-
-  try {
-    const comments = await Comment.find({ postId }).populate("userId", [
-      "firstName",
-      "lastName",
-      "profileImg",
-    ]);
-    console.log("Original Comments:", comments);
-
-    // Extract only the populated user data
-    const populatedComments = comments.map((comment) => ({
-      ...comment.toObject(),
-      userId: {
-        firstName: comment.userId.firstName,
-        lastName: comment.userId.lastName,
-        profileImg: comment.userId.profileImg,
-      },
-    }));
-
-    console.log("Populated Comments:", populatedComments);
-    res.status(200).json(populatedComments);
-  } catch (error) {
-    res.status(402).json({ message: "Error getting comments" });
   }
 });
 

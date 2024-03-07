@@ -7,13 +7,14 @@ const {
   getAllPosts,
   updatePost,
   deletePost,
+  searchPosts,
 } = require("../controllers/postCtrl");
 const { upload } = require("../middlewares/multerMiddleware");
 
 router.post("/create", authMiddleware, upload.single("image"), createPost);
 
 router.get("/all-posts", getAllPosts);
-
+router.get("/search", searchPosts);
 router.get("/:id", getSinglePost);
 router.put("/update/:id", authMiddleware, upload.single("image"), updatePost);
 router.delete("/:id", authMiddleware, deletePost);

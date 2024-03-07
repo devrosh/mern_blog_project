@@ -6,8 +6,8 @@ function Footer() {
     <div className="footer_container">
       <div className="left_links">
         <h3 className="font-roboto font-light text-sm">Contact</h3>
-        <p>Rastr Technologies</p>
-        <p>SantaFe, California,Usa</p>
+        <p>Rastrr Technologies</p>
+        <p>Florida, California,Usa</p>
         <p>info@rastr.com</p>
         <p>Tel No: 01-123578945</p>
       </div>

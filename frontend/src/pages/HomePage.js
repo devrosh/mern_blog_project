@@ -12,7 +12,7 @@ export default function HomePage() {
       try {
         // Fetch posts from the server
         const response = await fetch(
-          "http://localhost:8080/api/post/all-posts"
+          `http://localhost:8080/api/post/all-posts?limit=2`
         );
         // Check if the request was successful (status code 2xx)
         if (!response.ok) {
@@ -37,12 +37,12 @@ export default function HomePage() {
         <div className="col-span-2">
           <h2 className="mx-5 pb-5 text-lg text-black-600">Featured</h2>
           <HeroPost
-            title={posts[3]?.title}
-            image={posts[3]?.image}
-            author={posts[3]?.author}
-            createdAt={posts[3]?.createdAt}
-            _id={posts[3]?._id}
-            selectedCategory={posts[3]?.selectedCategory}
+            title={posts[1]?.title}
+            image={posts[1]?.image}
+            author={posts[1]?.author}
+            createdAt={posts[1]?.createdAt}
+            _id={posts[1]?._id}
+            selectedCategory={posts[1]?.selectedCategory}
           />
         </div>
         <div className="flex flex-col md:gap-x-5 gap-y-5 px-5 pb-10">

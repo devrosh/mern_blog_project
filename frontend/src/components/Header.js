@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectUser, clearUser } from "../authSlice";
 import { useDispatch } from "react-redux";
+import axios from "axios";
 
 function Header() {
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
+
+  //-------Logout--------
   const handleLogout = () => {
     // Dispatch action to clear user when logging out
     dispatch(clearUser());
     // Also, perform any other logout actions like redirecting or clearing tokens
     navigate("/login");
+  };
+
+  //---------Search Posts---------
+  const handleSearch = (e) => {
+    e.preventDefault();
+    navigate(`/search?${query}`);
   };
   return (
     <header className=" w-full h-[60px] pt-3 bg-white shadow-md">
@@ -26,12 +36,14 @@ function Header() {
             Blog
           </Link>
         </div>
-        <div className="w-[350px] flex flex-row items-center gap-4 bg-gray-100 p-2 rounded-full">
-          <FaSearch className="text-red-600" />
+        <div className="w-[350px] flex flex-row items-center gap-4 bg-red-50 p-2 rounded-full border focus:border-red-400">
+          <FaSearch className="text-red-600 " onClick={handleSearch} />
           <input
-            className="border-none outline-none bg-gray-100 text-sm"
+            className="w-full bg-transparent border-none outline-none text-sm text-gray-700 "
             type="text"
             placeholder="Search Post..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
         </div>
         {user ? (

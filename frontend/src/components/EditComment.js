@@ -36,7 +36,6 @@ const EditComment = ({ commentId, initialText, onEdit }) => {
         onChange={(e) => setEditedText(e.target.value)}
       />
       <div className="flex flex-row gap-4 items-center">
-
         <button
           className="text-xs text-white bg-red-500 px-2  py-1 rounded-md"
           type="submit"
@@ -45,7 +44,7 @@ const EditComment = ({ commentId, initialText, onEdit }) => {
         </button>
         <button
           className="text-xs text-white bg-red-500 px-2  py-1 rounded-md"
-          type="submit"
+          type="button"
         >
           Cancel
         </button>

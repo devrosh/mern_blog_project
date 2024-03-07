@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import PostDetails from "./pages/PostDetails";
+import SearchResults from "./pages/SearchResults";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             element={<ResetPassword />}
           />
           <Route path="/create" element={<CreatePost />} />
+          <Route path="/search" element={<SearchResults />} />
           <Route path="/post/:id/update" element={<EditPost />} />
           <Route path="/post/:id" element={<PostDetails />} />
         </Routes>

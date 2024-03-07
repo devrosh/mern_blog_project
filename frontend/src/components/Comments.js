@@ -29,7 +29,7 @@ const Comments = ({ postId }) => {
           },
         }
       );
-      const data = response.data;
+      const data = response.data.comment;
 
       setComments([...comments, data]);
     } catch (error) {
@@ -70,9 +70,12 @@ const Comments = ({ postId }) => {
           },
         }
       );
+
       console.log(response.data);
 
-      setComments(comments.filter((comment) => comment._id !== commentId));
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment._id !== commentId)
+      );
     } catch (error) {
       console.error("Error deleting comment", error);
     }
@@ -157,7 +160,7 @@ const Comments = ({ postId }) => {
       >
         <h1 className="text-red-500 font-medium">Add a Comment</h1>
         <textarea
-          className="w-[350px] h-[170px] px-5 py-3 border border-gray-50 bg-gray-100 rounded-md focus:outline-red-300 text-sm"
+          className="w-[350px] h-[170px] px-5 py-3 border border-gray-50 bg-red-50 rounded-md focus:outline-red-300 text-sm"
           type="text-area"
           placeholder="Write a comment"
           name="text"
@@ -241,10 +244,7 @@ const Comments = ({ postId }) => {
                       >
                         <AiFillDislike />
                       </div>
-                      <span className="text-xs text-gray-600">
-                        {item.likes.length}{" "}
-                        {item.likes.length <= 1 ? "Like" : "Likes"}
-                      </span>
+                      <span className="text-xs text-gray-600"></span>
 
                       <Link
                         onClick={() => handleEditClick(item._id)}

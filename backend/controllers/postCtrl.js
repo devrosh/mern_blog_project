@@ -42,7 +42,7 @@ const getSinglePost = aysncHandler(async (req, res) => {
 });
 const getAllPosts = aysncHandler(async (req, res) => {
   try {
-    const getAllPosts = await Post.find().sort({ createdAt: -1 }).limit(4);
+    const getAllPosts = await Post.find().sort({ createdAt: -1 }).limit(2);
     res.json(getAllPosts);
   } catch (error) {
     res.status(400).json({ mesage: "Error Fetching posts" });
@@ -86,10 +86,25 @@ const deletePost = aysncHandler(async (req, res) => {
   }
 });
 
+//--------------Search Posts-----------
+const searchPosts = aysncHandler(async (req, res) => {
+  try {
+    const { query } = req.query;
+    // Perform search logic (e.g., query the database)
+    const searchResults = await Post.find({
+      title: { $regex: new RegExp(query, "i") },
+    });
+
+    res.json({ results: searchResults });
+  } catch (error) {
+    res.status(404).json({ message: "No search results" });
+  }
+});
 module.exports = {
   createPost,
   getSinglePost,
   getAllPosts,
   updatePost,
   deletePost,
+  searchPosts,
 };

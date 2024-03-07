@@ -13,7 +13,12 @@ const { checkCommentOwnership } = require("../middlewares/commentMiddleware");
 
 router.post("/create", authMiddleware, createComment);
 router.get("/getAllComments/:postId", getAllComments);
-router.put("/edit/:id", authMiddleware, checkCommentOwnership, editComment);
+router.put(
+  "/edit/:commentId",
+  authMiddleware,
+  checkCommentOwnership,
+  editComment
+);
 router.put("/like", authMiddleware, likeComment);
 router.put("/unlike", authMiddleware, unlikeComment);
 router.delete(

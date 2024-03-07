@@ -6,10 +6,37 @@ import { useParams } from "react-router-dom";
 import Comments from "../components/Comments";
 import { useSelector } from "react-redux";
 import { selectUser } from "../authSlice";
+import Post from "../components/Post";
 function PostDetails() {
   const user = useSelector(selectUser);
   const [postDetail, setPostDetail] = useState(null);
+  const [posts, setPosts] = useState([]);
   const { id } = useParams();
+
+  //----get recent posts---
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        // Fetch posts from the server
+        const response = await fetch(
+          `http://localhost:8080/api/post/all-posts?limit=2`
+        );
+        // Check if the request was successful
+        if (!response.ok) {
+          throw new Error(`Failed to fetch data: ${response.statusText}`);
+        }
+        // Parse the response as JSON
+        const posts = await response.json();
+        console.log(posts);
+        // Set the fetched posts in the component's state
+        setPosts(posts);
+      } catch (error) {
+        console.error("Error fetching data:", error.message);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   useEffect(() => {
     const getPost = async () => {
@@ -53,6 +80,15 @@ function PostDetails() {
 
       <div dangerouslySetInnerHTML={{ __html: postDetail.content }} />
       <Comments postId={postDetail._id} />
+      <div className=" md:gap-x-5 gap-y-5 mt-5 px-5 pb-10">
+        <h2 className="text-xl font-semibold mb-5 text-gray-700 text-center">
+          Recent Posts
+        </h2>
+        <div className="flex flex-row gap-5 justify-center items-center">
+          {posts.length > 0 &&
+            posts.map((post, index) => <Post key={index} {...post} />)}
+        </div>
+      </div>
     </div>
   );
 }
